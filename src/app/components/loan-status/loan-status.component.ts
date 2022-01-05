@@ -12,27 +12,110 @@ const BASEURL = environment.BASEURL;
 
 @Injectable()
 
-export class LoanStatusComponent implements OnInit {
+export class LoanStatusComponent{
   message: any;
   accuracy: any;
+  preprocessMessage: string | undefined;
+  trainMessage: string | undefined;
+  evaluateMessage: string | undefined;
+  firstName :String | undefined ;
+  msg = "";
+  loan_terms = ['12','36','60','84','120','180','240','300','360'];
+  predictMessage= "";
+  
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
 
+
+  clickEvent(event: any){
+    switch (event){
+      case "preprocess":
+        console.log("preprocessing the data");
+        this.preprocess();
+      break;
+
+      case 'trainmodel':
+        console.log("training the model");
+        this.trainModel();
+      break;
+
+      case 'evaluateModel':
+        console.log("evaluating the model");
+        this.evaluateModel();
+      break;
+    }
   }
+ 
+  evaluateModel() {
 
-
-  clickEvent(){
-    this.message = "the model is training...";
-    this.http.get(BASEURL+"training").subscribe(response =>{
+    this.http.get(BASEURL+"modelperformance").subscribe(response =>{
       console.log(response);
       if(response != null)
       {
-       this.accuracy  = JSON.parse(JSON.stringify(response)).Accuracy;
-       this.message = `model has an accuracy of ${this.accuracy} `;
+       this.evaluateMessage = `${JSON.stringify(response)}`;
       }
     })
+    // throw new Error('Method not implemented.');
+  }
+  trainModel() {
+    this.trainMessage = "training the model..."
+    this.http.get(BASEURL+"trainmodel").subscribe(response =>{
+      console.log(response);
+      if(response != null)
+      {
+       this.trainMessage = `${JSON.parse(JSON.stringify(response))}`;
+      }
+    })
+    // throw new Error('Method not implemented.');
+  }
+  preprocess() {
+
+    this.http.get(BASEURL+"preprocessdata").subscribe(response =>{
+      console.log(response);
+      if(response != null)
+      {
+       this.preprocessMessage = `${JSON.parse(JSON.stringify(response))}`;
+      }
+    })
+    // throw new Error('Method not implemented.');
+  }
+
+  // printname(values: any){
+  //   console.log("in the method -1");
+  //   // if(this.firstName){
+  //     console.log("in the method-2");
+  //     this.msg = `the name is : ${values}`;
+  //     // $scope.firstname = "John";
+  //   // }
+  // }
+
+  onSubmit(form:any){
+    if(form){
+      const jsonReq = 
+      {
+        "Gender" : form.gender,
+        "Married" : form.married,
+        "Dependents" : form.dependents,
+        "Education" : form.education,
+        "Self_Employed" : form.Self_Employed,
+        "ApplicantIncome" : form.ApplicantIncome,
+        "CoapplicantIncome" : form.CoapplicantIncome,
+        "LoanAmount" : form.LoanAmount,
+        "Loan_Amount_Term" : form.LoanTerm,           
+        "Credit_History" : form.Credit_History,
+        "Property_Area" : form.Property_Area
+      }
+      this.msg =  JSON.stringify(jsonReq);
+
+      this.http.post(BASEURL+"predict", jsonReq).subscribe(response =>{
+        console.log(response);
+        if(response != null)
+        {
+         this.predictMessage = `${JSON.parse(JSON.stringify(response))}`;
+        }
+      })
+    }
   }
 
 }
