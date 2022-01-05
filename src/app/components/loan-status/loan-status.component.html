@@ -1,29 +1,168 @@
 <div>
-    <button (click)="clickEvent(preprocess)"> PreProcess Data</button>
+    <span>
+    <button (click)="clickEvent('preprocess')">PreProcess Data</button>
+  </span>
+    <span>
+    {{preprocessMessage}}
+  </span>
 </div>
 
 <div>
     <span>
-        {{message}}
-    </span>
-</div>
-
-<div>
-    <button (click)="clickEvent()">train model</button>
+    <button (click)="clickEvent('trainmodel')">train Model</button>
+  </span>
+    <span>
+    {{trainMessage}}
+  </span>
 </div>
 
 <div>
     <span>
-        {{message}}
-    </span>
-</div>
-
-<div>
-    <button (click)="clickEvent()">train model</button>
-</div>
-
-<div>
+    <button (click)="clickEvent('evaluateModel')">Evaluate Model</button>
+  </span>
     <span>
-        {{message}}
-    </span>
+    {{evaluateMessage}}
+  </span>
+</div>
+
+
+<div>
+    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)">
+        <H1> Bank loan details </H1>
+        {{userForm.value | json }}
+
+        <div>
+            <h2> Gender </h2>
+            <div>
+                <input type="radio" name="gender" value="Male" ngModel>
+                <label> Male</label>
+            </div>
+            <div>
+                <input type="radio" name="gender" value="Female" ngModel>
+                <label> Female</label>
+            </div>
+        </div>
+
+        <div>
+            <h2> Married </h2>
+            <div>
+                <input type="radio" name="married" value="Yes" ngModel>
+                <label> Yes </label>
+            </div>
+            <div>
+                <input type="radio" name="married" value="No" ngModel>
+                <label> No </label>
+            </div>
+        </div>
+
+        <div>
+            <h2> Dependents </h2>
+            <div>
+                <input type="radio" name="dependents" value="0" ngModel>
+                <label> 0</label>
+            </div>
+            <div>
+                <input type="radio" name="dependents" value="1" ngModel>
+                <label> 1</label>
+            </div>
+            <div>
+                <input type="radio" name="dependents" value="2" ngModel>
+                <label> 2</label>
+            </div>
+            <div>
+                <input type="radio" name="dependents" value="3+" ngModel>
+                <label> 3+</label>
+            </div>
+        </div>
+
+        <div>
+            <h2> Education </h2>
+            <div>
+                <input type="radio" name="education" value="Graduate" ngModel>
+                <label> Graduate</label>
+            </div>
+            <div>
+                <input type="radio" name="education" value="Not Graduate" ngModel>
+                <label> Not Graduate</label>
+            </div>
+        </div>
+
+        <div>
+            <h2> Self Employed </h2>
+            <div>
+                <input type="radio" name="Self_Employed" value="Yes" ngModel>
+                <label> Yes </label>
+            </div>
+            <div>
+                <input type="radio" name="Self_Employed" value="No" ngModel>
+                <label> No </label>
+            </div>
+        </div>
+
+        <div>
+            <h2> Credit History </h2>
+            <div>
+                <input type="radio" name="Credit_History" value="1" ngModel>
+                <label> Yes </label>
+            </div>
+            <div>
+                <input type="radio" name="Credit_History" value="0" ngModel>
+                <label> No </label>
+            </div>
+        </div>
+
+        <div>
+            <h2> Property Area </h2>
+            <div>
+                <input type="radio" name="Property_Area" value="Urban" ngModel>
+                <label> Urban </label>
+            </div>
+            <div>
+                <input type="radio" name="Property_Area" value="Semiurban" ngModel>
+                <label> Semiurban </label>
+            </div>
+            <div>
+                <input type="radio" name="Property_Area" value="Rural" ngModel>
+                <label> Rural </label>
+            </div>
+        </div>
+
+        <div>
+            <h2>loan term</h2>
+            <div>
+                <select name="LoanTerm" ngModel>
+                  <option selected> select loan term</option>
+                  <option *ngFor= "let loanterm of loan_terms"> {{loanterm}} </option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <h2> Applicant Income </h2>
+            <div>
+                <input type="text" name="ApplicantIncome" ngModel>
+            </div>
+        </div>
+
+        <div>
+            <h2> Coapplicant Income </h2>
+            <div>
+                <input type="text" name="CoapplicantIncome" ngModel>
+            </div>
+        </div>
+
+        <div>
+            <h2> Loan Amount </h2>
+            <div>
+                <input type="text" name="LoanAmount" ngModel>
+            </div>
+        </div>
+
+        <button type="submit"> Submit Form </button>
+
+    </form>
+</div>
+
+<div>
+    {{msg}}
 </div>
